@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Random Cats</title>
+    <style>
+        body {
+            text-align: center;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            background-color: #000000;
+        }
+        h1 {
+            color: white;
+        }
+        #cat-container img {
+            max-width: 400px;
+            width: 100%;
+            height: auto;
+            margin-top: 20px;
+        }
+        img {
+            border-radius: 8%;
+            border: 5px white;
+            border-style:dashed
+        }
+        button {
+            padding: 12px 22px;
+            font-size: 16px;
+            color: #000000;
+            background-color: #ffffff;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+    </style>
+</head>
+<body>
+    <h1>🐱 Imagem Aleatória de Gatinho 😽</h1>
+    <div id="cat-container">
+        <!-- imagem -->
+    </div>
+    <br>
+    <button id="new-cat-btn">Nova imagem</button>
+    <script>
+        function fetchCatImage() {
+            fetch('https://api.thecatapi.com/v1/images/search')
+        .then(response => response.json())
+        .then(data => {
+            const img = document.createElement('img');
+            img.src = data[0].url;
+            img.alt = "Imagem aleatória de gatinho";
+            const catContainer = document.getElementById('cat-container');
+            // Limpa
+            catContainer.innerHTML = '';
+            // Adiciona
+            catContainer.appendChild(img);
+    })
+        .catch(error => {
+            const errorMessage = document.createElement('p');
+            errorMessage.textContent = "Não foi possível obter a imagem de gatinho.";
+            const catContainer = document.getElementById('cat-container');
+            catContainer.innerHTML = '';
+            catContainer.appendChild(errorMessage);
+    });
+    }
+        window.onload = fetchCatImage;
+
+        const newCatBtn = document.getElementById('new-cat-btn');
+        newCatBtn.addEventListener('click', fetchCatImage);
+    </script>
+</body>
+</html>
